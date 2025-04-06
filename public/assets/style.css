@@ -7,3 +7,9 @@ div#errorDiv > * {
     font-weight: bold;
     color: red;
 }
+
+#chat, #users {
+    border: 1px solid black;
+    height: 30vh;
+    overflow-y: scroll;
+}
