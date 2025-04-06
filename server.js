@@ -15,13 +15,21 @@ app.use(
 );
 
 app.use("/", express.static(path.join(__dirname, "public")));
+const users = [];
 const server = http.createServer(app);
 const io = new Server(server);
 io.on('connection', (socket) => {
     console.log("socket connected: " + socket.id);
-    io.emit("chat", "new client: " + socket.id);
+    socket.on("user",(name) => {
+        users.push({
+            "id": socket.id,
+            "name": name
+        });
+        io.emit("users", users);
+    });
     socket.on('message', (message) => {
-       const response = socket.id + ': ' + message;
+       const user = users.find(e => e.id === socket.id); 
+       const response = user.name + ': ' + message;
        console.log(response);
        io.emit("chat", response);
     });

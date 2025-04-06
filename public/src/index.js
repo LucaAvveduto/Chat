@@ -1,3 +1,11 @@
+HTMLElement.prototype.hide = function() {
+    this.classList.add("d-none");
+}
+
+HTMLElement.prototype.show = function() {
+    this.classList.remove("d-none");
+}
+
 const md = document.getElementById("myModal");
 const modal = new bootstrap.Modal(md);
 const accessButton = document.getElementById("accessButton");
@@ -6,6 +14,9 @@ const input = document.getElementById("input");
 const button = document.getElementById("sendButton");
 const chat = document.getElementById("chat");
 const errorDiv = document.getElementById("errorDiv");
+const chatDiv = document.getElementById("chat-block");
+const login = document.getElementById("login");
+const usersDiv = document.getElementById("users");
 
 const template = '<li class="list-group-item">%MESSAGE</li>';
 const messages = [];
@@ -15,7 +26,13 @@ accessButton.onclick = () => {
   modalInput.value = "";  
   if (!val) return errorDiv.innerHTML = "<p>Username non valido</p>";
   modal.hide();
+  login.hide();
+  document.getElementById("title").innerHTML = "<h1>Group chat</h1>";
+  chatDiv.show();
+
   const socket = io();
+  socket.emit("user",val);
+
   input.onkeydown = (event) => {
     if (event.keyCode === 13) {
       event.preventDefault();
@@ -31,16 +48,20 @@ accessButton.onclick = () => {
   socket.on("chat", (message) => {
     console.log(message);
     messages.push(message);
-    render();
+    render(chat,messages);
   });
 
-  const render = () => {
+  socket.on("users", (list) => {
+    render(usersDiv,(list.map(e => e.name)));
+  })
+
+  const render = (element,list) => {
     let html = "";
-    messages.forEach((message) => {
-      const row = template.replace("%MESSAGE", message);
+    list.forEach((item) => {
+      const row = template.replace("%MESSAGE", item);
       html += row;
     });
-    chat.innerHTML = html;
+    element.innerHTML = html;
     window.scrollTo(0, document.body.scrollHeight);
   };
 };
