@@ -1,0 +1,32 @@
+{
+  "name": "chat",
+  "version": "1.0.0",
+  "description": "Chat project",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LucaAvveduto/Chat.git"
+  },
+  "keywords": [
+    "Chat",
+    "Node.js",
+    "WS"
+  ],
+  "author": "Luke",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/LucaAvveduto/Chat/issues"
+  },
+  "homepage": "https://github.com/LucaAvveduto/Chat#readme",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "express": "^5.1.0",
+    "fs": "^0.0.1-security",
+    "http": "^0.0.1-security",
+    "path": "^0.12.7",
+    "socket.io": "^4.8.1"
+  }
+}
