@@ -33,6 +33,11 @@ io.on('connection', (socket) => {
        console.log(response);
        io.emit("chat", response);
     });
+    socket.on("disconnect", () => {
+        const index = users.findIndex(e => e.id === socket.id);
+        if(index !== -1) users.splice(index, 1);
+        io.emit("users", users);
+    });
  });
 server.listen(conf.port, () => {
   console.log("server running on port: " + conf.port);
